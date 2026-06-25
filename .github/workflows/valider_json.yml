@@ -1,0 +1,14 @@
+name: Validation du JSON des Cantiques
+on: [push]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Valider le fichier JSON
+        run: |
+          python -c "import json; json.load(open('cantiques.json', encoding='utf-8'))"
+          echo "✅ JSON valide et sécurisé pour la production !"

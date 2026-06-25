@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "titre": "Nzambe na nga na pesa yo nini",
+    "auteur": "Patrice",
+    "paroles": "Couplet 1\nNzambe na nga na pesa yo nini...\n\nRefrain\nYango ngai naye..."
+  },
+  {
+    "id": "2",
+    "titre": "Jinga",
+    "auteur": "Patrice",
+    "paroles": "Te nabungisa Elykia...\n[Tes paroles complètes ici]"
+  },
+  {
+    "id": "3",
+    "titre": "Dieu Tout Puissant",
+    "auteur": "Classique",
+    "paroles": "Dieu tout puissant...\nQue tu es grand !"
+  }
+]
