@@ -177,14 +177,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-  void _injecterSecours() {
+  Future<void> _injecterSecours() async {
+    // Le catalogue embarqué garantit un premier démarrage utilisable sans réseau.
+    try {
+      final catalogueLocal = await rootBundle.loadString('cantiques.json');
+      final decoded = jsonDecode(catalogueLocal);
+      if (decoded is List && decoded.isNotEmpty) {
+        final chants = decoded
+            .map((item) => Cantique.fromJson(Map<String, dynamic>.from(item)))
+            .toList()
+          ..sort((a, b) => a.titre.compareTo(b.titre));
+
+        if (!mounted) return;
+        setState(() {
+          _tousLesChants = chants;
+          _chantsAffiches = chants;
+          _statusMsg = "Catalogue local · Mode hors-ligne";
+          _isLoading = false;
+        });
+        return;
+      }
+    } catch (e) {
+      debugPrint("Catalogue local indisponible : $e");
+    }
+
+    if (!mounted) return;
     setState(() {
       _tousLesChants = [
         Cantique(
           id: "0",
           titre: "Mode hors-ligne activé",
-          auteur: "Aucune connexion disponible",
-          paroles: "Vérifiez votre connexion puis appuyez sur ↻ pour réessayer.",
+          auteur: "Catalogue indisponible",
+          paroles: "Aucun catalogue local n'est disponible. Vérifiez votre installation puis réessayez.",
         )
       ];
       _chantsAffiches = _tousLesChants;
