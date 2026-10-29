@@ -1,14 +1,29 @@
 name: Validation du JSON des Cantiques
-on: [push]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   validate:
+    name: Valider le fichier JSON
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Valider le fichier JSON
-        run: |
-          python -c "import json; json.load(open('cantiques.json', encoding='utf-8'))"
-          echo "✅ JSON valide et sécurisé pour la production !"
+      - name: Configurer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Vérifier la syntaxe JSON
+        run: python -m json.tool cantiques.json > /dev/null
+
+      - name: Confirmer la validation
+        run: echo "Le fichier cantiques.json est un JSON syntaxiquement valide."
